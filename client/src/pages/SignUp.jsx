@@ -1,26 +1,35 @@
 import { Button, Form, Input, message } from 'antd'
 import { GoogleOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from '../redux/user/userSlice'
 
 const SignUp = () => {
+  const loading = useSelector((state) => state.user.loading)
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
-  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate()
-  const onFinish = async (values) => {
-    setLoading(true)
+  const onFinish = (values) => {
+    dispatch(signInStart())
     try {
-      const res = await fetch('/api/auth/signup', {
+      fetch('/api/auth/signup', {
         method: 'POST',
         body: JSON.stringify(values),
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       })
+
+      dispatch(signInFailure())
       message.success('Sign Up Successfully!')
-      setLoading(false)
       navigate('/sign-in')
     } catch (error) {
       message.error('Sign Up Not Successfull Try Again...')
       console.log(error)
+      dispatch(signInFailure())
     }
   }
 
@@ -127,7 +136,7 @@ const SignUp = () => {
           </Button>
         </Form.Item>
         <p className="text-base font-medium">
-          Have an account ?{' '}
+          Have an account ?
           <Link to="/sign-in" className="text-blue-500 hover:text-blue-300">
             Sign in
           </Link>

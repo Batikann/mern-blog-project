@@ -1,24 +1,33 @@
 import { Button, Form, Input, message } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from '../redux/user/userSlice'
 
 const SignIn = () => {
+  const { loading } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
-  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const onFinish = async (values) => {
-    setLoading(true)
+    dispatch(signInStart())
     try {
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         body: JSON.stringify(values),
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       })
+      const data = await res.json()
+      dispatch(signInSuccess(data))
       message.success('Sign In Successfully!')
-      setLoading(false)
+
       navigate('/')
     } catch (error) {
       message.error('Sign In Not Successfull Try Again...')
+      dispatch(signInFailure())
       console.log(error)
     }
   }
