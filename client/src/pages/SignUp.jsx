@@ -10,7 +10,7 @@ const SignUp = () => {
   const onFinish = async (values) => {
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/api/auth/signup', {
+      const res = await fetch('/api/auth/signup', {
         method: 'POST',
         body: JSON.stringify(values),
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -26,7 +26,7 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-col justify-center mt-4 items-center">
-      <h2 className="text-2xl font-semibold mb-6">Welcome My Blog</h2>
+      <h2 className="text-2xl font-semibold mb-6">Welcome My Blog Register</h2>
       <Form
         form={form}
         layout="vertical"
