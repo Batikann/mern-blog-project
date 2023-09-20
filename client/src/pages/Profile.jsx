@@ -121,9 +121,6 @@ const Profile = () => {
           <p className="font-semibold text-base cursor-pointer hover:text-red-600">
             Delete Account
           </p>
-          <p className="font-semibold text-base cursor-pointer hover:text-blue-600">
-            Sign Out
-          </p>
         </div>
       </Form>
     </div>
