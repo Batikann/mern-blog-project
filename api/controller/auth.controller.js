@@ -38,8 +38,8 @@ export const googleSignIn = async (req, res) => {
     const user = await User.findOne({ email: req.body.email })
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-      const { password: hashedPassword, ...rest } = validUser._doc
-      const expiryDate = new Date(Date.now() + 3600000) // 1 Hour
+      const { password: hashedPassword, ...rest } = user._doc
+      const expiryDate = new Date(Date.now() + 3600000) // 1 hour
       res
         .cookie('access_token', token, {
           httpOnly: true,
@@ -51,7 +51,6 @@ export const googleSignIn = async (req, res) => {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8)
-
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10)
       const newUser = new User({
         username:
@@ -62,9 +61,9 @@ export const googleSignIn = async (req, res) => {
         profilePicture: req.body.photo,
       })
       await newUser.save()
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-      const { password: hashedPassword2, ...rest } = validUser._doc
-      const expiryDate = new Date(Date.now() + 3600000) // 1 Hour
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET)
+      const { password: hashedPassword2, ...rest } = newUser._doc
+      const expiryDate = new Date(Date.now() + 3600000) // 1 hour
       res
         .cookie('access_token', token, {
           httpOnly: true,
@@ -74,6 +73,6 @@ export const googleSignIn = async (req, res) => {
         .json(rest)
     }
   } catch (error) {
-    res.status(400).json('noluyo amkkk')
+    next(error)
   }
 }
