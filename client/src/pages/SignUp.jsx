@@ -7,6 +7,7 @@ import {
   signInSuccess,
   signInFailure,
 } from '../redux/user/userSlice'
+import OAuth from '../components/OAuth'
 
 const SignUp = () => {
   const loading = useSelector((state) => state.user.loading)
@@ -125,19 +126,13 @@ const SignUp = () => {
             Register
           </Button>
         </Form.Item>
-        <Form.Item className="w-full">
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="w-full !bg-red-600 hover:!bg-red-500 text-white h-12 font-bold"
-            icon={<GoogleOutlined />}
-          >
-            Login With Google
-          </Button>
-        </Form.Item>
+        <OAuth />
         <p className="text-base font-medium">
           Have an account ?
-          <Link to="/sign-in" className="text-blue-500 hover:text-blue-300">
+          <Link
+            to="/sign-in"
+            className="text-blue-500 hover:text-blue-300 ml-2"
+          >
             Sign in
           </Link>
         </p>

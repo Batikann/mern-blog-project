@@ -6,6 +6,7 @@ import {
   signInStart,
   signInSuccess,
 } from '../redux/user/userSlice'
+import OAuth from '../components/OAuth'
 
 const SignIn = () => {
   const { loading } = useSelector((state) => state.user)
@@ -82,7 +83,7 @@ const SignIn = () => {
             Login
           </Button>
         </Form.Item>
-
+        <OAuth />
         <p className="text-base font-medium">
           Don't Have an account ?
           <Link
