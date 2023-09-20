@@ -1,5 +1,4 @@
 import { Button, Form, Input, message } from 'antd'
-import { GoogleOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -69,6 +68,16 @@ const SignUp = () => {
             {
               required: true,
               message: 'Please input your password!',
+            },
+            {
+              min: 8,
+              max: 16,
+              message: 'Password must be between 8 and 16 characters!',
+            },
+            {
+              pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.]).*$/,
+              message:
+                'The password must contain an uppercase letter, a lowercase letter, a digit, and a period!',
             },
           ]}
           hasFeedback

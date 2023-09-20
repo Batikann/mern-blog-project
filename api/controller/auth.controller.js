@@ -1,6 +1,7 @@
 import User from '../models/user.modal.js'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { errorHandler } from '../middleware/errorHandler.js'
 
 export const signUp = async (req, res) => {
   try {
@@ -14,13 +15,13 @@ export const signUp = async (req, res) => {
   }
 }
 
-export const signIn = async (req, res) => {
+export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body
     const validUser = await User.findOne({ email })
-    if (!validUser) res.status(404).json({ message: 'Invalid credentials' })
+    if (!validUser) return next(errorHandler(401, 'User Not Found'))
     const validPassword = bcryptjs.compareSync(password, validUser.password)
-    if (!validPassword) res.status(401).json({ message: 'Invalid Password' })
+    if (!validPassword) return next(errorHandler(401, 'Invalid Password'))
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
     const { password: hashedPassword, ...rest } = validUser._doc
     const expiryDate = new Date(Date.now() + 3600000) // 1 Hour
@@ -33,7 +34,7 @@ export const signIn = async (req, res) => {
   }
 }
 
-export const googleSignIn = async (req, res) => {
+export const googleSignIn = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email })
     if (user) {

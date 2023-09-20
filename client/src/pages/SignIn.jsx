@@ -22,9 +22,12 @@ const SignIn = () => {
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       })
       const data = await res.json()
+      if (data.success === false) {
+        dispatch(signInFailure())
+        return
+      }
       dispatch(signInSuccess(data))
       message.success('Sign In Successfully!')
-
       navigate('/')
     } catch (error) {
       message.error('Sign In Not Successfull Try Again...')
