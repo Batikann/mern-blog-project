@@ -1,23 +1,84 @@
 import { useSelector } from 'react-redux'
-import { Button, Form, Input, message } from 'antd'
-
+import { Button, Form, Input, Progress, message } from 'antd'
+import { useRef, useState, useEffect } from 'react'
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage'
+import { app } from '../config/firebase'
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user)
   const loading = useSelector((state) => state.user.loading)
-
+  const [imagePercent, setImagePercent] = useState(0)
+  const [image, setImage] = useState(undefined)
+  const [imageError, setImageError] = useState(false)
+  const [formData, setFormData] = useState({})
+  const fileRef = useRef()
   const [form] = Form.useForm()
+  console.log(formData)
 
   const onFinish = (values) => {
     console.log(values)
   }
+
+  const handleFileUpload = async (image) => {
+    const storage = getStorage(app)
+    const fileName = new Date().getTime() + image.name
+    const storageRef = ref(storage, fileName)
+    const uploadTask = uploadBytesResumable(storageRef, image)
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        setImagePercent(Math.round(progress))
+      },
+      (error) => {
+        setImageError(error)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, profilePicture: downloadURL })
+        )
+      }
+    )
+  }
+  useEffect(() => {
+    if (image) {
+      handleFileUpload(image)
+    }
+  }, [image])
+
   return (
     <div className="flex flex-col gap-4  items-center">
       <h2 className="text-2xl font-bold mt-6">Profile</h2>
+      <input
+        type="file"
+        ref={fileRef}
+        hidden
+        accept="image/*"
+        onChange={(e) => setImage(e.target.files[0])}
+      />
       <img
         src={currentUser.profilePicture}
         alt={currentUser.username}
         className="w-20 h-20 object-cover rounded-full"
+        onClick={() => fileRef.current.click()}
       />
+      <p className="text-sm self-center">
+        {imageError ? (
+          <span className="text-red-700">
+            Error uploading image (file size must be less than 2 MB)
+          </span>
+        ) : imagePercent > 0 && imagePercent < 100 ? (
+          <span className="text-slate-700">{`Uploading: ${imagePercent} %`}</span>
+        ) : imagePercent === 100 ? (
+          <span className="text-green-700">Image uploaded successfully</span>
+        ) : (
+          ''
+        )}
+      </p>
       <Form
         form={form}
         initialValues={currentUser}
