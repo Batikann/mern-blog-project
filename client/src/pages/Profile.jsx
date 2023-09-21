@@ -61,8 +61,8 @@ const Profile = () => {
         onChange={(e) => setImage(e.target.files[0])}
       />
       <img
-        src={currentUser.profilePicture}
-        alt={currentUser.username}
+        src={formData.profilePicture || currentUser?.profilePicture}
+        alt={currentUser?.username}
         className="w-20 h-20 object-cover rounded-full"
         onClick={() => fileRef.current.click()}
       />
@@ -90,7 +90,7 @@ const Profile = () => {
         <Form.Item
           name="username"
           label="Username"
-          defaultValue={currentUser.username}
+          defaultValue={currentUser?.username}
           rules={[
             {
               required: true,

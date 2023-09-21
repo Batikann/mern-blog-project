@@ -8,7 +8,7 @@ export const Header = () => {
   const handleLogout = () => {}
   const items = [
     {
-      label: <p className="text-sm">{currentUser.username}</p>,
+      label: <p className="text-sm">{currentUser?.username}</p>,
       key: '0',
     },
     {
@@ -51,8 +51,8 @@ export const Header = () => {
               className="flex items-center gap-3 cursor-pointer"
             >
               <img
-                src={currentUser.profilePicture}
-                alt={currentUser.username}
+                src={currentUser?.profilePicture}
+                alt={currentUser?.username}
                 className="w-9 h-9 object-cover rounded-full"
               />
               <DownOutlined />
