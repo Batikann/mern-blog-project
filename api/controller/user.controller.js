@@ -3,14 +3,15 @@ import User from '../models/user.modal.js'
 import { errorHandler } from '../middleware/errorHandler.js'
 
 export const updateUser = async (req, res, next) => {
-  if (req.params.id !== req.user.id) {
-    return next(errorHandler(403, 'You can only update your own account'))
+  if (req.user.id !== req.params.id) {
+    return next(errorHandler(401, 'You can update only your account!'))
   }
   try {
     if (req.body.password) {
-      req.body.password = await bcryptjs.hashSync(req.body.password, 10)
+      req.body.password = bcryptjs.hashSync(req.body.password, 10)
     }
-    const updateUser = User.findByIdAndUpdate(
+
+    const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
         $set: {
@@ -22,7 +23,7 @@ export const updateUser = async (req, res, next) => {
       },
       { new: true }
     )
-    const { password, ...rest } = updateUser._doc
+    const { password, ...rest } = updatedUser._doc
     res.status(200).json(rest)
   } catch (error) {
     next(error)
