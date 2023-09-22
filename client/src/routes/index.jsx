@@ -1,5 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import HeaderLayout from '../layout/HeaderLayout'
+import PrivateRoute from '../components/PrivateRoute'
+
 import {
   Home,
   About,
@@ -28,7 +30,11 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '/profile/edit',
-            element: <ProfileEdit />,
+            element: (
+              <PrivateRoute>
+                <ProfileEdit />
+              </PrivateRoute>
+            ),
           },
         ],
       },
