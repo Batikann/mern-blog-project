@@ -1,11 +1,24 @@
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DownOutlined } from '@ant-design/icons'
-import { Dropdown, Space, Button } from 'antd'
+import { Dropdown, Space, Button, message } from 'antd'
+import { signOut } from '../redux/user/userSlice'
 
 export const Header = () => {
   const { currentUser } = useSelector((state) => state.user)
-  const handleLogout = () => {}
+  const dispatch = useDispatch()
+  const handleLogout = async () => {
+    try {
+      fetch('/api/auth/signout', {
+        method: 'POST',
+      })
+
+      message.success('Logout successfully')
+      dispatch(signOut())
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
   const items = [
     {
       label: <p className="text-sm">{currentUser?.username}</p>,
@@ -24,7 +37,7 @@ export const Header = () => {
     },
     {
       label: (
-        <Button className="w-full" onClick={handleLogout}>
+        <Button htmlType="submit" className="w-full" onClick={handleLogout}>
           Logout
         </Button>
       ),
