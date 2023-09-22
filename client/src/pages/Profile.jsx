@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Form, Input, Progress, message } from 'antd'
 import { useRef, useState, useEffect } from 'react'
 import {
@@ -8,8 +8,10 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage'
 import { app } from '../config/firebase'
+import { updateUserSuccess } from '../redux/user/userSlice'
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user)
+  const dispastch = useDispatch() // dispatch
   const loading = useSelector((state) => state.user.loading)
   const [imagePercent, setImagePercent] = useState(0)
   const [image, setImage] = useState(undefined)
@@ -17,11 +19,6 @@ const Profile = () => {
   const [formData, setFormData] = useState({})
   const fileRef = useRef()
   const [form] = Form.useForm()
-  console.log(formData)
-
-  const onFinish = (values) => {
-    console.log(values)
-  }
 
   const handleFileUpload = async (image) => {
     const storage = getStorage(app)
@@ -49,6 +46,27 @@ const Profile = () => {
       handleFileUpload(image)
     }
   }, [image])
+
+  const onFinish = async (values) => {
+    try {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...formData, ...values }),
+      })
+      const data = await res.json()
+      if (data.success === false) {
+        message.error(data.message)
+      }
+      message.success('User updated Successfully')
+      console.log(data)
+      dispastch(updateUserSuccess(data))
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4  items-center">
@@ -83,8 +101,8 @@ const Profile = () => {
         form={form}
         initialValues={currentUser}
         layout="vertical"
-        name="updateProfile"
         onFinish={onFinish}
+        name="updateProfile"
         className="md:min-w-[600px] p-4 max-[540px]:w-full"
       >
         <Form.Item
@@ -93,7 +111,6 @@ const Profile = () => {
           defaultValue={currentUser?.username}
           rules={[
             {
-              required: true,
               message: 'Please input your nickname!',
               whitespace: true,
             },
@@ -124,10 +141,6 @@ const Profile = () => {
           label="Password"
           rules={[
             {
-              required: true,
-              message: 'Please input your password!',
-            },
-            {
               min: 8,
               max: 16,
               message: 'Password must be between 8 and 16 characters!',
@@ -149,10 +162,6 @@ const Profile = () => {
           dependencies={['password']}
           hasFeedback
           rules={[
-            {
-              required: true,
-              message: 'Please confirm your password!',
-            },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
