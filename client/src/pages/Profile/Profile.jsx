@@ -4,7 +4,7 @@ import {
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  BookOutlined,
 } from '@ant-design/icons'
 import { Layout, Menu, Button, theme } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
@@ -17,9 +17,6 @@ const Profile = () => {
   return (
     <Layout>
       <Sider
-        style={{
-          height: '100vh',
-        }}
         trigger={null}
         collapsible={true}
         collapsed={collapsed}
@@ -28,7 +25,8 @@ const Profile = () => {
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
-          mode="inline"
+          mode="vertical"
+          style={{ minHeight: '100vh' }}
           defaultSelectedKeys={['1']}
           items={[
             {
@@ -38,8 +36,8 @@ const Profile = () => {
             },
             {
               key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
+              icon: <BookOutlined />,
+              label: <Link to="/profile/posts">My Posts</Link>,
             },
             {
               key: '3',

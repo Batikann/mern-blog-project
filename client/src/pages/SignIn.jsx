@@ -1,6 +1,7 @@
 import { Button, Form, Input, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import {
   signInFailure,
   signInStart,
@@ -60,7 +61,11 @@ const SignIn = () => {
             },
           ]}
         >
-          <Input className="h-12 " placeholder="jhondoe@gmail.com " />
+          <Input
+            className="h-12 "
+            prefix={<MailOutlined className="site-form-item-icon" />}
+            placeholder="jhondoe@gmail.com "
+          />
         </Form.Item>
 
         <Form.Item
@@ -74,7 +79,11 @@ const SignIn = () => {
           ]}
           hasFeedback
         >
-          <Input.Password className="h-12 " placeholder="**********" />
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            className="h-12 "
+            placeholder="**********"
+          />
         </Form.Item>
         <Form.Item className="w-full">
           <Button

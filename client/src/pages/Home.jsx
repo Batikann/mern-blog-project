@@ -24,7 +24,7 @@ const IconText = ({ icon, text }) => (
 const Home = () => {
   return (
     <>
-      <div className="w-full h-full py-8 px-4 home">
+      <div className="w-full py-8 px-4 home h-screen">
         <CategoryCascader />
         <List
           itemLayout="vertical"

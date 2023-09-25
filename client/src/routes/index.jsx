@@ -10,6 +10,8 @@ import {
   SignUp,
   Profile,
 } from '../pages/PageComponents'
+import MyPosts from '../pages/Profile/MyPosts'
+import CreatePost from '../pages/Profile/CreatePost'
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +35,22 @@ export const router = createBrowserRouter([
             element: (
               <PrivateRoute>
                 <ProfileEdit />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: '/profile/posts',
+            element: (
+              <PrivateRoute>
+                <MyPosts />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: '/profile/posts/create-post',
+            element: (
+              <PrivateRoute>
+                <CreatePost />
               </PrivateRoute>
             ),
           },

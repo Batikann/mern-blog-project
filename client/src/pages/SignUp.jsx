@@ -7,6 +7,7 @@ import {
   signInFailure,
 } from '../redux/user/userSlice'
 import OAuth from '../components/OAuth'
+import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const SignUp = () => {
   const loading = useSelector((state) => state.user.loading)
@@ -58,7 +59,11 @@ const SignUp = () => {
             },
           ]}
         >
-          <Input className="h-12 " placeholder="jhondoe@gmail.com " />
+          <Input
+            className="h-12 "
+            prefix={<MailOutlined className="site-form-item-icon" />}
+            placeholder="jhondoe@gmail.com "
+          />
         </Form.Item>
 
         <Form.Item
@@ -82,7 +87,11 @@ const SignUp = () => {
           ]}
           hasFeedback
         >
-          <Input.Password className="h-12 " placeholder="**********" />
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            className="h-12 "
+            placeholder="**********"
+          />
         </Form.Item>
 
         <Form.Item
@@ -107,7 +116,11 @@ const SignUp = () => {
             }),
           ]}
         >
-          <Input.Password className="h-12" placeholder="**********" />
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            className="h-12"
+            placeholder="**********"
+          />
         </Form.Item>
 
         <Form.Item
@@ -122,7 +135,11 @@ const SignUp = () => {
             },
           ]}
         >
-          <Input className="h-12" placeholder="jhonDoee" />
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            className="h-12"
+            placeholder="jhonDoee"
+          />
         </Form.Item>
 
         <Form.Item className="w-full">
