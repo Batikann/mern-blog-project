@@ -65,6 +65,7 @@ export const googleSignIn = async (req, res, next) => {
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET)
       const { password: hashedPassword2, ...rest } = newUser._doc
       const expiryDate = new Date(Date.now() + 3600000) // 1 hour
+
       res
         .cookie('access_token', token, {
           httpOnly: true,

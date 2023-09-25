@@ -1,31 +1,28 @@
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons'
-import React from 'react'
-import { Avatar, List, Space } from 'antd'
-import CategoryCascader from '../components/CategoryCascader'
+import { useEffect, useState } from 'react'
+import { Avatar, List, Rate } from 'antd'
+import CategoryMenu from '../components/CategoryMenu'
 import { Footer } from 'antd/es/layout/layout'
-const data = Array.from({
-  length: 23,
-}).map((_, i) => ({
-  href: 'https://ant.design',
-  title: `ant design part ${i}`,
-  avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
-  description:
-    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-  content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}))
-const IconText = ({ icon, text }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-)
 
 const Home = () => {
+  const [posts, setPost] = useState()
+  const getPosts = async () => {
+    const res = await fetch('/api/post/getPosts', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await res.json()
+    setPost(data) // set data to state
+  }
+  useEffect(() => {
+    getPosts()
+  }, [posts])
+
   return (
     <>
-      <div className="w-full py-8 px-4 home h-screen">
-        <CategoryCascader />
+      <div className="w-full py-8 px-4 home h-screen max-w-7xl mx-auto">
         <List
           itemLayout="vertical"
           size="large"
@@ -35,42 +32,25 @@ const Home = () => {
             },
             pageSize: 4,
           }}
-          dataSource={data}
+          dataSource={posts}
           footer={null}
           renderItem={(item) => (
             <List.Item
-              key={item.title}
-              actions={[
-                <IconText
-                  icon={StarOutlined}
-                  text="156"
-                  key="list-vertical-star-o"
-                />,
-                <IconText
-                  icon={LikeOutlined}
-                  text="156"
-                  key="list-vertical-like-o"
-                />,
-                <IconText
-                  icon={MessageOutlined}
-                  text="2"
-                  key="list-vertical-message"
-                />,
-              ]}
-              extra={
-                <img
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              }
+              extra={<img width={272} alt="logo" src={item.coverImage} />}
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
+                avatar={
+                  <Avatar
+                    className="flex items-center justify-center"
+                    src={item.authorPicture}
+                  />
+                }
                 title={<a href={item.href}>{item.title}</a>}
-                description={item.description}
+                description={item.header}
               />
-              {item.content}
+
+              <Rate disabled value={item.rate} />
+              <div>{item.description}</div>
             </List.Item>
           )}
         />
