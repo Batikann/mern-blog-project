@@ -36,21 +36,28 @@ const Home = () => {
           footer={null}
           renderItem={(item) => (
             <List.Item
-              extra={<img width={272} alt="logo" src={item.coverImage} />}
+              extra={
+                <img
+                  width={272}
+                  height={153}
+                  alt="post"
+                  src={`http://localhost:3000/assets/${item.postCover}`}
+                />
+              }
             >
               <List.Item.Meta
-                avatar={
-                  <Avatar
-                    className="flex items-center justify-center"
-                    src={item.authorPicture}
-                  />
-                }
                 title={<a href={item.href}>{item.title}</a>}
-                description={item.header}
+                description={
+                  <p className="text-xl font-bold text-black">{item.header}</p>
+                }
               />
-
-              <Rate disabled value={item.rate} />
+              <div className="my-2">
+                <Avatar src={item.authorPicture} />
+                <span className="ml-2">{item.author}</span>
+              </div>
               <div>{item.description}</div>
+              <Rate disabled value={item.rate} className="my-2" />
+              <p className="mt-2">{item.createdAt.substring(0, 10)}</p>
             </List.Item>
           )}
         />

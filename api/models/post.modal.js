@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const postSchema = mongoose.Schema(
   {
     author: {
-      type: Object,
+      type: String,
       required: true,
     },
     email: {
@@ -22,7 +22,7 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    coverImage: {
+    postCover: {
       type: String,
       required: true,
     },
