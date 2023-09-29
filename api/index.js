@@ -6,12 +6,14 @@ import authRoutes from './routes/auth.route.js'
 import path from 'path'
 import userRoutes from './routes/user.route.js'
 import postRoutes from './routes/post.route.js'
+import categoryRoutes from './routes/category.route.js'
 import cookieParser from 'cookie-parser'
 import { fileURLToPath } from 'url'
 import bodyParser from 'body-parser'
 import multer from 'multer'
 import { verifyToken } from './middleware/verifyUser.js'
 import { createPost } from './controller/post.controller.js'
+
 import helmet from 'helmet'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -48,6 +50,7 @@ app.post('/post', upload.single('picture'), createPost)
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
+app.use('/api/category', categoryRoutes)
 
 connectDb()
 const port = process.env.PORT || 5000

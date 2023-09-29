@@ -3,14 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import {
+  errorVal,
   signInFailure,
   signInStart,
   signInSuccess,
 } from '../redux/user/userSlice'
 import OAuth from '../components/OAuth'
+import { useState } from 'react'
 
 const SignIn = () => {
   const { loading } = useSelector((state) => state.user)
+  const [errorMessage, setErrorMessage] = useState('')
   const dispatch = useDispatch()
   const [form] = Form.useForm()
   const navigate = useNavigate()
@@ -23,10 +26,18 @@ const SignIn = () => {
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       })
       const data = await res.json()
+      console.log(data)
+      if (res.status === 401) {
+        await setErrorMessage('Kullanıcı adı veya şifre hatalı')
+      }
+      if (res.status === 404) {
+        await setErrorMessage('Kullanıcı bulunamadı')
+      }
       if (data.success === false) {
         dispatch(signInFailure())
         return
       }
+
       dispatch(signInSuccess(data))
       message.success('Sign In Successfully!')
       navigate('/')
@@ -36,6 +47,7 @@ const SignIn = () => {
       console.log(error)
     }
   }
+
   return (
     <div className="flex flex-col justify-center mt-4 items-center">
       <h2 className="text-2xl font-semibold mb-6">Welcome My Blog Login</h2>
@@ -85,6 +97,9 @@ const SignIn = () => {
             placeholder="**********"
           />
         </Form.Item>
+        {errorMessage && (
+          <p className="text-red-600 font-semibold my-4">{errorMessage}</p>
+        )}
         <Form.Item className="w-full">
           <Button
             type="primary"

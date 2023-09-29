@@ -8,12 +8,16 @@ import {
 } from '@ant-design/icons'
 import { Layout, Menu, Button, theme } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 const { Header, Sider, Content } = Layout
 const Profile = () => {
   const [collapsed, setCollapsed] = useState(true)
   const {
     token: { colorBgContainer },
   } = theme.useToken()
+
+  const { currentUser } = useSelector((state) => state.user)
+
   return (
     <Layout>
       <Sider
@@ -39,10 +43,10 @@ const Profile = () => {
               icon: <BookOutlined />,
               label: <Link to="/profile/posts">My Posts</Link>,
             },
-            {
+            currentUser.role === 'admin' && {
               key: '3',
               icon: <UploadOutlined />,
-              label: 'nav 3',
+              label: <Link to="/profile/category">Category</Link>,
             },
           ]}
         />
