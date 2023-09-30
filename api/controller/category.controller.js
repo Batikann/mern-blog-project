@@ -21,6 +21,16 @@ export const getCategories = async (req, res, next) => {
   }
 }
 
+export const getCategory = async (req, res, next) => {
+  try {
+    const category = await Category.findById(req.params.id)
+    if (!category) return next(errorHandler(401, 'Category Not Found'))
+    res.status(200).json(category)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const deleteCategory = async (req, res, next) => {
   try {
     const category = await Category.findById(req.params.id)

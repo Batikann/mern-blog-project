@@ -1,7 +1,6 @@
 import { Button, Modal, Form, Input, message } from 'antd'
 
 const CategoryModal = ({
-  showModal,
   isModalOpen,
   handleCancel,
   setIsModalOpen,

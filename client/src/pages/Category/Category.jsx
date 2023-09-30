@@ -3,13 +3,14 @@ import { Space, Table, Tag, Button, message } from 'antd'
 import { useEffect, useState } from 'react'
 import CategoryModal from '../../components/modals/CategoryModal'
 import CategoryEditModal from '../../components/modals/CategoryEditModal'
-const { Column, ColumnGroup } = Table
+const { Column } = Table
 
 const Category = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false)
   const [categories, setCategories] = useState()
   const [categoryName, setCategoryName] = useState()
+  const [category, setCategory] = useState()
   const showModal = () => {
     setIsModalOpen(true)
   }
@@ -44,6 +45,14 @@ const Category = () => {
     }
   }
 
+  const getCategory = async (id) => {
+    const res = await fetch(`/api/category/get-category/${id}`, {
+      method: 'GET',
+    })
+    const data = await res.json()
+    setCategory(data)
+  }
+
   useEffect(() => {
     getCategories()
   }, [categoryName])
@@ -69,8 +78,8 @@ const Category = () => {
           title="createdAt"
           dataIndex="createdAt"
           key="createdAt"
-          render={() => {
-            return <span>{new Date().toLocaleDateString()}</span>
+          render={(_, record) => {
+            return <span>{record.createdAt.substring(0, 10)}</span>
           }}
         />
         <Column
@@ -80,7 +89,10 @@ const Category = () => {
             return (
               <Space size="middle">
                 <Button
-                  onClick={showModalEdit}
+                  onClick={() => {
+                    showModalEdit()
+                    getCategory(record._id)
+                  }}
                   className="font-bold !text-white !bg-blue-800 hover:!bg-blue-600 !outline-none !border-none"
                 >
                   Edit
@@ -100,6 +112,13 @@ const Category = () => {
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}
+        setCategoryName={setCategoryName}
+      />
+      <CategoryEditModal
+        setIsModalOpenEdit={setIsModalOpenEdit}
+        isModalOpenEdit={isModalOpenEdit}
+        handleCancelEdit={handleCancelEdit}
+        category={category}
         setCategoryName={setCategoryName}
       />
     </div>

@@ -4,6 +4,7 @@ import {
   getCategories,
   deleteCategory,
   updateCategory,
+  getCategory,
 } from '../controller/category.controller.js'
 
 const router = express.Router()
@@ -11,6 +12,7 @@ const router = express.Router()
 router.post('/create-category', createCategory)
 router.get('/get-categories', getCategories)
 router.delete('/delete-category/:id', deleteCategory)
-router.patch('/update-category/:id', updateCategory)
+router.put('/update-category/:id', updateCategory)
+router.get('/get-category/:id', getCategory)
 
 export default router

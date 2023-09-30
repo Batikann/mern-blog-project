@@ -1,29 +1,34 @@
 import { Button, Modal, Form, Input, message } from 'antd'
 
-const CategoryEditModal = (
+const CategoryEditModal = ({
   isModalOpenEdit,
   handleCancelEdit,
   setIsModalOpenEdit,
-  setCategoryName
-) => {
+  category,
+  setCategoryName,
+}) => {
   const [form] = Form.useForm()
+
   const onFinish = async (values) => {
-    const res = await fetch(`/api/category/update-category/${values._id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ categoryName }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    const data = await res.json()
-    console.log(res)
-    console.log(data)
-    if (res.status === 200) {
-      message.success('Category Updated Successfully')
-      setIsModalOpenEdit(false)
-      setCategoryName(data.categoryName)
-    } else {
-      message.error('Something went wrong')
+    try {
+      const res = await fetch(`/api/category/update-category/${category._id}`, {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await res.json()
+
+      if (res.status === 200) {
+        message.success('Category Updated Successfully')
+        setIsModalOpenEdit(false)
+        setCategoryName(data.categoryName)
+      } else {
+        message.error('Something went wrong')
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
   return (
@@ -35,14 +40,18 @@ const CategoryEditModal = (
         footer={null}
       >
         <Form
-          name="basic"
-          autoComplete="off"
           className="mt-8"
           onFinish={onFinish}
           form={form}
+          initialValues={category}
+          preserve={false}
         >
-          <Form.Item label="Category" name="categoryName">
-            <Input />
+          <Form.Item
+            label="Category"
+            name="categoryName"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder="enter category name" />
           </Form.Item>
 
           <Form.Item>
