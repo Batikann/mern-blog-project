@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import HeaderLayout from '../layout/HeaderLayout'
 import PrivateRoute from '../components/PrivateRoute'
 import Category from '../pages/Category/Category'
+import Users from '../pages/Users/Users'
 
 import {
   Home,
@@ -66,6 +67,16 @@ export const router = createBrowserRouter([
               <PrivateRoute>
                 <AdminRoute>
                   <Category />
+                </AdminRoute>
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: '/profile/users',
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <Users />
                 </AdminRoute>
               </PrivateRoute>
             ),

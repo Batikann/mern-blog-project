@@ -29,3 +29,16 @@ export const updateUser = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find()
+    const filteredUsers = users.map((user) => {
+      const { password, ...rest } = user._doc
+      return rest
+    })
+    res.status(200).json(filteredUsers)
+  } catch (error) {
+    next(error)
+  }
+}

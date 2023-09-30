@@ -4,6 +4,7 @@ import {
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
+  EditOutlined,
   BookOutlined,
 } from '@ant-design/icons'
 import { Layout, Menu, Button, theme } from 'antd'
@@ -35,7 +36,7 @@ const Profile = () => {
           items={[
             {
               key: '1',
-              icon: <UserOutlined />,
+              icon: <EditOutlined />,
               label: <Link to="/profile/edit">Edit Profile</Link>,
             },
             {
@@ -47,6 +48,11 @@ const Profile = () => {
               key: '3',
               icon: <UploadOutlined />,
               label: <Link to="/profile/category">Category</Link>,
+            },
+            currentUser.role === 'admin' && {
+              key: '4',
+              icon: <UserOutlined />,
+              label: <Link to="/profile/users">Users</Link>,
             },
           ]}
         />
