@@ -15,6 +15,8 @@ import {
 import MyPosts from '../pages/Profile/MyPosts'
 import CreatePost from '../pages/Profile/CreatePost'
 import AdminRoute from '../components/AdminRoute'
+import AdminDashboard from '../pages/AdminDashboard'
+import CheckRole from '../components/CheckRole'
 
 export const router = createBrowserRouter([
   {
@@ -46,14 +48,6 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/profile/posts',
-            element: (
-              <PrivateRoute>
-                <MyPosts />
-              </PrivateRoute>
-            ),
-          },
-          {
             path: '/profile/posts/create-post',
             element: (
               <PrivateRoute>
@@ -62,7 +56,27 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/profile/category',
+            path: '/profile/posts',
+            element: (
+              <PrivateRoute>
+                <MyPosts />
+              </PrivateRoute>
+            ),
+          },
+        ],
+      },
+      {
+        path: '/admin',
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            path: '/admin/category',
             element: (
               <PrivateRoute>
                 <AdminRoute>
@@ -72,7 +86,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: '/profile/users',
+            path: '/admin/users',
             element: (
               <PrivateRoute>
                 <AdminRoute>

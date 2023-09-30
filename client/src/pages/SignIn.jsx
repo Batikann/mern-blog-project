@@ -37,10 +37,15 @@ const SignIn = () => {
         dispatch(signInFailure())
         return
       }
+      if (data.role === 'admin') {
+        navigate('/admin')
+      }
+      if (data.role === 'user') {
+        navigate('/')
+      }
 
       dispatch(signInSuccess(data))
       message.success('Sign In Successfully!')
-      navigate('/')
     } catch (error) {
       message.error('Sign In Not Successfull Try Again...')
       dispatch(signInFailure())

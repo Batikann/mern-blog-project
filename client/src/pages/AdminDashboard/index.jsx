@@ -9,14 +9,14 @@ import {
 } from '@ant-design/icons'
 import { Layout, Menu, Button, theme } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+
 const { Header, Sider, Content } = Layout
-const Profile = () => {
+
+const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(true)
   const {
     token: { colorBgContainer },
   } = theme.useToken()
-
   return (
     <Layout>
       <Sider
@@ -37,10 +37,16 @@ const Profile = () => {
               icon: <EditOutlined />,
               label: <Link to="/profile/edit">Edit Profile</Link>,
             },
+
             {
-              key: '2',
-              icon: <BookOutlined />,
-              label: <Link to="/profile/posts">My Posts</Link>,
+              key: '3',
+              icon: <UploadOutlined />,
+              label: <Link to="/admin/category">Category</Link>,
+            },
+            {
+              key: '4',
+              icon: <UserOutlined />,
+              label: <Link to="/admin/users">Users</Link>,
             },
           ]}
         />
@@ -76,4 +82,4 @@ const Profile = () => {
     </Layout>
   )
 }
-export default Profile
+export default AdminDashboard

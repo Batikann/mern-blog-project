@@ -20,18 +20,23 @@ export const Header = () => {
     }
   }
   const items = [
-    {
-      label: <p className="text-sm">{currentUser?.username}</p>,
-      key: '0',
-    },
-    {
-      label: <Link to="/">Home</Link>,
-      key: '1',
-    },
-    {
-      label: <Link to="/profile">Profile</Link>,
-      key: '2',
-    },
+    currentUser?.role === 'admin'
+      ? {
+          label: (
+            <Link to="/admin" className="text-sm">
+              {currentUser?.username}
+            </Link>
+          ),
+          key: '0',
+        }
+      : {
+          label: (
+            <Link to="/profile" className="text-sm">
+              {currentUser?.username}
+            </Link>
+          ),
+          key: '0',
+        },
     {
       type: 'divider',
     },
@@ -41,7 +46,7 @@ export const Header = () => {
           Logout
         </Button>
       ),
-      key: '3',
+      key: '1',
     },
   ]
   return (
