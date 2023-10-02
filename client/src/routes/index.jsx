@@ -35,7 +35,9 @@ export const router = createBrowserRouter([
         path: '/profile',
         element: (
           <PrivateRoute>
-            <Profile />
+            <CheckRole>
+              <Profile />
+            </CheckRole>
           </PrivateRoute>
         ),
         children: [
@@ -43,7 +45,9 @@ export const router = createBrowserRouter([
             path: '/profile/edit',
             element: (
               <PrivateRoute>
-                <ProfileEdit />
+                <CheckRole>
+                  <ProfileEdit />
+                </CheckRole>
               </PrivateRoute>
             ),
           },

@@ -34,17 +34,11 @@ const AdminDashboard = () => {
           items={[
             {
               key: '1',
-              icon: <EditOutlined />,
-              label: <Link to="/profile/edit">Edit Profile</Link>,
-            },
-
-            {
-              key: '3',
               icon: <UploadOutlined />,
               label: <Link to="/admin/category">Category</Link>,
             },
             {
-              key: '4',
+              key: '2',
               icon: <UserOutlined />,
               label: <Link to="/admin/users">Users</Link>,
             },
