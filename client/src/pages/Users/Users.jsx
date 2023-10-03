@@ -1,9 +1,15 @@
-import { Button, Space, Table } from 'antd'
+import { Button, Popconfirm, Space, Table, message } from 'antd'
 import { useState, useEffect } from 'react'
+import {
+  StopOutlined,
+  CheckCircleOutlined,
+  CiCircleOutlined,
+} from '@ant-design/icons'
 const { Column, ColumnGroup } = Table
 
 const Users = () => {
   const [users, setUsers] = useState([])
+  const [data, setData] = useState()
   const getAllUsers = async () => {
     const res = await fetch('/api/user/all', {
       method: 'GET',
@@ -12,11 +18,37 @@ const Users = () => {
     const filteredData = data.filter((user) => user.role !== 'admin')
     setUsers(filteredData)
   }
+
+  const confirmBanUser = async (user) => {
+    const res = await fetch(
+      `http://localhost:3000/api/user/changeUserStatus/${user._id}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ status: !user.status }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    const data = await res.json()
+    if (data.status) {
+      message.success(`unbanned ${data.username}`)
+    } else {
+      message.success(`Banned ${data.username}`)
+    }
+    await setData(data)
+  }
+  const cancel = (e) => {
+    console.log(e)
+    message.error('Click on No')
+  }
+
   useEffect(() => {
     getAllUsers()
-  }, [])
+  }, [data])
+
   return (
-    <Table dataSource={users}>
+    <Table dataSource={users} rowKey={'_id'}>
       <Column
         title="Avatar"
         dataIndex="profilePicture"
@@ -47,14 +79,27 @@ const Users = () => {
         name="action"
         render={(_, record) => {
           return (
-            <Space size="middle">
-              <Button className="!bg-orange-600 !text-white font-bold !outline-none !border-none hover:!bg-orange-400 cursor-pointer h-10 transition-all  rounded-lg">
-                Change Status
-              </Button>
+            <div className="flex justify-between">
               <Button className="!bg-indigo-700 hover:!bg-indigo-500 !border-none !outline-none !text-white font-bold cursor-pointer transition-all h-10 rounded-lg">
                 Change Role
               </Button>
-            </Space>
+
+              <Popconfirm
+                title="Ban The User"
+                placement="topRight"
+                description="Are you sure to banned this user?"
+                onConfirm={() => confirmBanUser(record)}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                {record.status ? (
+                  <StopOutlined className="text-xl hover:text-red-600 cursor-pointer transition-all duration-300" />
+                ) : (
+                  <CheckCircleOutlined className="text-xl hover:text-green-600 cursor-pointer transition-all duration-300" />
+                )}
+              </Popconfirm>
+            </div>
           )
         }}
       />

@@ -33,6 +33,9 @@ const SignIn = () => {
       if (res.status === 404) {
         await setErrorMessage('Kullanıcı bulunamadı')
       }
+      if (res.status === 403) {
+        await setErrorMessage('Üzgünüz Ban yemişsiniz :)')
+      }
       if (data.success === false) {
         dispatch(signInFailure())
         return

@@ -20,10 +20,12 @@ export const signIn = async (req, res, next) => {
     const { email, password } = req.body
     const validUser = await User.findOne({ email })
     if (!validUser) return next(errorHandler(404, 'User Not Found'))
+    if (validUser.status === false)
+      return next(errorHandler(403, 'User Banned System!'))
     const validPassword = bcryptjs.compareSync(password, validUser.password)
     if (!validPassword) return next(errorHandler(401, 'Invalid Password'))
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
-    const { password: hashedPassword, ...rest } = validUser._doc
+    const { password: hashedPassword, status, ...rest } = validUser._doc
     const expiryDate = new Date(Date.now() + 3600000) // 1 Hour
     res
       .cookie('access_token', token, { httpOnly: true, expires: expiryDate })
@@ -37,6 +39,7 @@ export const signIn = async (req, res, next) => {
 export const googleSignIn = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email })
+    if (user.status === false) return next(errorHandler(403, 'Banned System'))
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
       const { password: hashedPassword, ...rest } = user._doc
@@ -63,7 +66,7 @@ export const googleSignIn = async (req, res, next) => {
       })
       await newUser.save()
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET)
-      const { password: hashedPassword2, ...rest } = newUser._doc
+      const { password: hashedPassword2, status, ...rest } = newUser._doc
       const expiryDate = new Date(Date.now() + 3600000) // 1 hour
 
       res
