@@ -68,7 +68,7 @@ const Category = () => {
         </Button>
       </div>
 
-      <Table dataSource={categories}>
+      <Table dataSource={categories} rowKey={'_id'}>
         <Column
           title="Category Name"
           dataIndex="categoryName"

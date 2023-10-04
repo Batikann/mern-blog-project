@@ -5,6 +5,7 @@ import {
   CheckCircleOutlined,
   CiCircleOutlined,
 } from '@ant-design/icons'
+import UserRoleModal from '../../components/modals/Users/UserRoleModal'
 const { Column, ColumnGroup } = Table
 
 const Users = () => {
@@ -47,63 +48,83 @@ const Users = () => {
     getAllUsers()
   }, [data])
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const showModal = () => {
+    setIsModalOpen(true)
+  }
+  const handleOk = () => {
+    setIsModalOpen(false)
+  }
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
   return (
-    <Table dataSource={users} rowKey={'_id'}>
-      <Column
-        title="Avatar"
-        dataIndex="profilePicture"
-        key="profilePicture"
-        render={(_, record) => {
-          return (
-            <img
-              className="w-12 h-12"
-              src={record.profilePicture}
-              alt={record.username}
-            />
-          )
-        }}
-      />
-      <Column title="Username" dataIndex="username" key="username" />
-      <Column title="Email" dataIndex="email" key="email" />
-      <Column title="Role" dataIndex="role" key="role" />
-      <Column
-        title="CreatedAt"
-        dataIndex="createdAt"
-        key="createdAt"
-        render={(_, record) => {
-          return <p>{record.createdAt.substring(0, 10)}</p>
-        }}
-      />
-      <Column
-        title="Action"
-        name="action"
-        render={(_, record) => {
-          return (
-            <div className="flex justify-between">
-              <Button className="!bg-indigo-700 hover:!bg-indigo-500 !border-none !outline-none !text-white font-bold cursor-pointer transition-all h-10 rounded-lg">
-                Change Role
-              </Button>
+    <>
+      <Table dataSource={users} rowKey={'_id'}>
+        <Column
+          title="Avatar"
+          dataIndex="profilePicture"
+          key="profilePicture"
+          render={(_, record) => {
+            return (
+              <img
+                className="w-12 h-12"
+                src={record.profilePicture}
+                alt={record.username}
+              />
+            )
+          }}
+        />
+        <Column title="Username" dataIndex="username" key="username" />
+        <Column title="Email" dataIndex="email" key="email" />
+        <Column title="Role" dataIndex="role" key="role" />
+        <Column
+          title="CreatedAt"
+          dataIndex="createdAt"
+          key="createdAt"
+          render={(_, record) => {
+            return <p>{record.createdAt.substring(0, 10)}</p>
+          }}
+        />
+        <Column
+          title="Action"
+          name="action"
+          render={(_, record) => {
+            return (
+              <div className="flex justify-between">
+                <Button
+                  onClick={showModal}
+                  className="!bg-indigo-700 hover:!bg-indigo-500 !border-none !outline-none !text-white font-bold cursor-pointer transition-all h-10 rounded-lg"
+                >
+                  Change Role
+                </Button>
 
-              <Popconfirm
-                title="Ban The User"
-                placement="topRight"
-                description="Are you sure to banned this user?"
-                onConfirm={() => confirmBanUser(record)}
-                onCancel={cancel}
-                okText="Yes"
-                cancelText="No"
-              >
-                {record.status ? (
-                  <StopOutlined className="text-xl hover:text-red-600 cursor-pointer transition-all duration-300" />
-                ) : (
-                  <CheckCircleOutlined className="text-xl hover:text-green-600 cursor-pointer transition-all duration-300" />
-                )}
-              </Popconfirm>
-            </div>
-          )
-        }}
+                <Popconfirm
+                  title="Ban The User"
+                  placement="topRight"
+                  description="Are you sure to banned this user?"
+                  onConfirm={() => confirmBanUser(record)}
+                  onCancel={cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  {record.status ? (
+                    <StopOutlined className="text-xl hover:text-red-600 cursor-pointer transition-all duration-300" />
+                  ) : (
+                    <CheckCircleOutlined className="text-xl hover:text-green-600 cursor-pointer transition-all duration-300" />
+                  )}
+                </Popconfirm>
+              </div>
+            )
+          }}
+        />
+      </Table>
+      <UserRoleModal
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
       />
-    </Table>
+    </>
   )
 }
 export default Users

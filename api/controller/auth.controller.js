@@ -24,7 +24,10 @@ export const signIn = async (req, res, next) => {
       return next(errorHandler(403, 'User Banned System!'))
     const validPassword = bcryptjs.compareSync(password, validUser.password)
     if (!validPassword) return next(errorHandler(401, 'Invalid Password'))
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
+    const token = jwt.sign(
+      { id: validUser._id, role: validUser.role },
+      process.env.JWT_SECRET
+    )
     const { password: hashedPassword, status, ...rest } = validUser._doc
     const expiryDate = new Date(Date.now() + 3600000) // 1 Hour
     res
