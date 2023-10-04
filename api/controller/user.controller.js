@@ -55,3 +55,18 @@ export const changeUserStatus = async (req, res, next) => {
     next(error)
   }
 }
+
+export const changeRoleUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return next(errorHandler(404, 'User Not Found!'))
+    }
+    const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
+    res.status(200).json(updateUser)
+  } catch (error) {
+    next(error)
+  }
+}

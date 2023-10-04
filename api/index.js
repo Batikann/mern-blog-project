@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url'
 import bodyParser from 'body-parser'
 import multer from 'multer'
 import { verifyToken } from './middleware/verifyUser.js'
+import { checkRole } from './middleware/checkUserRole.js'
 import { createPost } from './controller/post.controller.js'
 
 import helmet from 'helmet'
@@ -50,7 +51,7 @@ app.post('/post', upload.single('picture'), createPost)
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
-app.use('/api/category', categoryRoutes)
+app.use('/api/category', checkRole, categoryRoutes)
 
 connectDb()
 const port = process.env.PORT || 5000

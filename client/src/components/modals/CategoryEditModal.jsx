@@ -24,6 +24,7 @@ const CategoryEditModal = ({
         message.success('Category Updated Successfully')
         setIsModalOpenEdit(false)
         setCategoryName(data.categoryName)
+        form.resetFields()
       } else {
         message.error('Something went wrong')
       }
@@ -39,13 +40,7 @@ const CategoryEditModal = ({
         onCancel={handleCancelEdit}
         footer={null}
       >
-        <Form
-          className="mt-8"
-          onFinish={onFinish}
-          form={form}
-          initialValues={category}
-          preserve={false}
-        >
+        <Form className="mt-8" onFinish={onFinish} form={form}>
           <Form.Item
             label="Category"
             name="categoryName"

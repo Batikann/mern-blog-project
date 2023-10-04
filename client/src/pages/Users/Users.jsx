@@ -10,7 +10,10 @@ const { Column, ColumnGroup } = Table
 
 const Users = () => {
   const [users, setUsers] = useState([])
+  const [userID, setUserID] = useState()
   const [data, setData] = useState()
+  const [role, setRole] = useState()
+
   const getAllUsers = async () => {
     const res = await fetch('/api/user/all', {
       method: 'GET',
@@ -21,16 +24,13 @@ const Users = () => {
   }
 
   const confirmBanUser = async (user) => {
-    const res = await fetch(
-      `http://localhost:3000/api/user/changeUserStatus/${user._id}`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ status: !user.status }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    const res = await fetch(`/api/user/changeUserStatus/${user._id}`, {
+      method: 'POST',
+      body: JSON.stringify({ status: !user.status }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
     const data = await res.json()
     if (data.status) {
       message.success(`unbanned ${data.username}`)
@@ -46,7 +46,7 @@ const Users = () => {
 
   useEffect(() => {
     getAllUsers()
-  }, [data])
+  }, [data, role])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const showModal = () => {
@@ -93,7 +93,11 @@ const Users = () => {
             return (
               <div className="flex justify-between">
                 <Button
-                  onClick={showModal}
+                  onClick={() => {
+                    showModal()
+                    setRole(record.role)
+                    setUserID(record._id)
+                  }}
                   className="!bg-indigo-700 hover:!bg-indigo-500 !border-none !outline-none !text-white font-bold cursor-pointer transition-all h-10 rounded-lg"
                 >
                   Change Role
@@ -123,6 +127,10 @@ const Users = () => {
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}
         handleOk={handleOk}
+        setRole={setRole}
+        role={role}
+        userID={userID}
+        setIsModalOpen={setIsModalOpen}
       />
     </>
   )

@@ -7,3 +7,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.btn {
+  @apply !outline-none !border-none !text-white font-bold;
+}
