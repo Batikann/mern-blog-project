@@ -10,6 +10,7 @@ export const createPost = async (req, res, next) => {
     category,
     description,
     header,
+    authorID,
   } = req.body
   try {
     const newPost = new Post({
@@ -21,6 +22,7 @@ export const createPost = async (req, res, next) => {
       category,
       description,
       header,
+      authorID,
     })
     await newPost.save()
     res.status(200).json(newPost)

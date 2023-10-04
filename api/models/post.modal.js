@@ -6,6 +6,10 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    authorID: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,

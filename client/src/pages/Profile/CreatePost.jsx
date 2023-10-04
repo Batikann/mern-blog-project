@@ -54,6 +54,7 @@ const CreatePost = () => {
     formData.append('author', currentUser.username)
     formData.append('email', currentUser.email)
     formData.append('authorPicture', currentUser.profilePicture)
+    formData.append('authorID', currentUser._id)
     try {
       const res = await fetch('http://localhost:3000/post', {
         method: 'POST',
