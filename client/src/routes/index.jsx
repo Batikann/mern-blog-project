@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 import HeaderLayout from '../layout/HeaderLayout'
-import PrivateRoute from '../components/PrivateRoute'
-import Category from '../pages/Category/Category'
-import Users from '../pages/Users/Users'
+import PrivateRoute from '../components/RouteAuth/PrivateRoute'
+import Category from '../pages/AdminDashboard/Category/Category'
+import Users from '../pages/AdminDashboard/Users/Users'
 
 import {
   Home,
@@ -12,11 +12,12 @@ import {
   SignUp,
   Profile,
 } from '../pages/PageComponents'
-import MyPosts from '../pages/Profile/MyPosts'
-import CreatePost from '../pages/Profile/CreatePost'
-import AdminRoute from '../components/AdminRoute'
+import MyPosts from '../pages/UserDashboard/Post/MyPosts'
+import CreatePost from '../pages/UserDashboard/Post/CreatePost'
+import AdminRoute from '../components/RouteAuth/AdminRoute'
 import AdminDashboard from '../pages/AdminDashboard'
-import CheckRole from '../components/CheckRole'
+import CheckRole from '../components/RouteAuth/CheckRole'
+import PostView from '../pages/UserDashboard/Post/PostView'
 
 export const router = createBrowserRouter([
   {
@@ -55,7 +56,9 @@ export const router = createBrowserRouter([
             path: '/profile/posts/create-post',
             element: (
               <PrivateRoute>
-                <CreatePost />
+                <CheckRole>
+                  <CreatePost />
+                </CheckRole>
               </PrivateRoute>
             ),
           },
@@ -63,7 +66,19 @@ export const router = createBrowserRouter([
             path: '/profile/posts',
             element: (
               <PrivateRoute>
-                <MyPosts />
+                <CheckRole>
+                  <MyPosts />
+                </CheckRole>
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: '/profile/posts/view-post/:id',
+            element: (
+              <PrivateRoute>
+                <CheckRole>
+                  <PostView />
+                </CheckRole>
               </PrivateRoute>
             ),
           },

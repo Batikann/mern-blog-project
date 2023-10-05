@@ -5,7 +5,7 @@ import {
   CheckCircleOutlined,
   CiCircleOutlined,
 } from '@ant-design/icons'
-import UserRoleModal from '../../components/modals/Users/UserRoleModal'
+import UserRoleModal from '../../../components/modals/Users/UserRoleModal'
 const { Column, ColumnGroup } = Table
 
 const Users = () => {

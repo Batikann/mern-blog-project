@@ -5,8 +5,8 @@ import {
   signInStart,
   signInSuccess,
   signInFailure,
-} from '../redux/user/userSlice'
-import OAuth from '../components/OAuth'
+} from '../../redux/user/userSlice'
+import OAuth from '../../components/RouteAuth/OAuth'
 import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const SignUp = () => {

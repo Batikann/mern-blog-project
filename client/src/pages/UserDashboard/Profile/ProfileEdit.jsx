@@ -7,8 +7,8 @@ import {
   ref,
   uploadBytesResumable,
 } from 'firebase/storage'
-import { app } from '../../config/firebase'
-import { updateUserSuccess } from '../../redux/user/userSlice'
+import { app } from '../../../config/firebase'
+import { updateUserSuccess } from '../../../redux/user/userSlice'
 const ProfileEdit = () => {
   const { currentUser } = useSelector((state) => state.user)
   const dispastch = useDispatch() // dispatch

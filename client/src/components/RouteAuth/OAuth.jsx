@@ -1,9 +1,9 @@
 import { Form, Button } from 'antd'
 import { GoogleOutlined } from '@ant-design/icons'
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'
-import { app } from '../config/firebase'
+import { app } from '../../config/firebase'
 import { useDispatch } from 'react-redux'
-import { signInSuccess } from '../redux/user/userSlice'
+import { signInSuccess } from '../../redux/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 
 const OAuth = () => {

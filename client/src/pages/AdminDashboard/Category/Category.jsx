@@ -1,8 +1,8 @@
 import { Space, Table, Tag, Button, message } from 'antd'
 
 import { useEffect, useState } from 'react'
-import CategoryModal from '../../components/modals/CategoryModal'
-import CategoryEditModal from '../../components/modals/CategoryEditModal'
+import CategoryModal from '../../../components/modals/Category/CategoryModal'
+import CategoryEditModal from '../../../components/modals/Category/CategoryEditModal'
 const { Column } = Table
 
 const Category = () => {

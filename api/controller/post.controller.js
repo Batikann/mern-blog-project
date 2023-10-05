@@ -1,4 +1,5 @@
 import Post from '../models/post.modal.js'
+import { errorHandler } from '../middleware/errorHandler.js'
 
 export const createPost = async (req, res, next) => {
   const {
@@ -35,6 +36,26 @@ export const getPosts = async (req, res, next) => {
   try {
     const posts = await Post.find()
     res.status(200).json(posts)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getPostsForUser = async (req, res, next) => {
+  try {
+    const posts = await Post.find({ authorID: req.params.id })
+    if (!posts) return next(errorHandler(404, 'Posts not found'))
+    res.status(200).json(posts)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getPostById = async (req, res, next) => {
+  try {
+    const post = await Post.find({ _id: req.params.id })
+    if (!post) return next(errorHandler(404, 'Post not found'))
+    res.status(200).json(post)
   } catch (error) {
     next(error)
   }

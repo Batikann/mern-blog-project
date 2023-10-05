@@ -7,8 +7,8 @@ import {
   signInFailure,
   signInStart,
   signInSuccess,
-} from '../redux/user/userSlice'
-import OAuth from '../components/OAuth'
+} from '../../redux/user/userSlice'
+import OAuth from '../../components/RouteAuth/OAuth'
 import { useState } from 'react'
 
 const SignIn = () => {
