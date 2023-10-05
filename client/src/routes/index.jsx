@@ -18,6 +18,7 @@ import AdminRoute from '../components/RouteAuth/AdminRoute'
 import AdminDashboard from '../pages/AdminDashboard'
 import CheckRole from '../components/RouteAuth/CheckRole'
 import PostView from '../pages/UserDashboard/Post/PostView'
+import Post from '../pages/Post'
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: 'post/:id',
+        element: <Post />,
       },
       {
         path: '/profile',

@@ -80,7 +80,7 @@ const MyPosts = () => {
           Create Post
         </Link>
       </div>
-      <Table dataSource={posts} columns={columns} rowKey={'_id'} />;
+      <Table dataSource={posts} columns={columns} rowKey={'_id'} />
     </>
   )
 }

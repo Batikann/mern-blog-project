@@ -13,8 +13,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const PostView = () => {
   const [quillValue, setQuillValue] = useState('')
+  const [categories, setCategories] = useState([])
   const { currentUser } = useSelector((state) => state.user)
-  const [post, setPost] = useState()
+  const [loading, setLoading] = useState(false)
 
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -44,20 +45,39 @@ const PostView = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
-  const getPost = async () => {
-    const res = await fetch(`/api/post/getPost/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    const data = await res.json()
-    await setPost(data)
-  }
-
   useEffect(() => {
-    getPost()
-  }, [id])
+    const fetchData = async () => {
+      try {
+        const [singleCategoryResponse, singleBlogResponse] = await Promise.all([
+          fetch('/api/category/get-categories'),
+          fetch(`/api/post/getPost/${id}`),
+        ])
+
+        const [singleCategoryResponseData, singleBlogResponseData] =
+          await Promise.all([
+            singleCategoryResponse.json(),
+            singleBlogResponse.json(),
+          ])
+
+        setCategories(singleCategoryResponseData)
+
+        if (singleBlogResponseData) {
+          form.setFieldsValue({
+            header: singleBlogResponseData[0].header,
+            description: singleBlogResponseData[0].description,
+            category: singleBlogResponseData[0].category,
+            categories: singleBlogResponseData[0].categories,
+            content: singleBlogResponseData[0].content,
+          })
+          setLoading(true)
+        }
+      } catch (error) {
+        console.log('Veri hatası:', error)
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [id, form])
 
   const onFinish = async (values) => {
     const formData = new FormData()
@@ -75,7 +95,6 @@ const PostView = () => {
     try {
       const res = await fetch('http://localhost:3000/post', {
         method: 'POST',
-
         body: formData,
       })
       if (res.status === 200) {
@@ -88,19 +107,17 @@ const PostView = () => {
     }
   }
 
-  return post ? (
+  return loading ? (
     <Form
       layout="vertical"
       className="flex flex-col gap-6"
       onFinish={onFinish}
       form={form}
-      initialValues={post}
     >
       <Form.Item
         label="Header"
         name="header"
         rules={[{ required: true, max: 50, min: 15 }]}
-        initialValue={post.header}
       >
         <Input placeholder="Header" className="h-12" />
       </Form.Item>
@@ -149,7 +166,11 @@ const PostView = () => {
       </Form.Item>
       <Form.Item label="Category" name="category" rules={[{ required: true }]}>
         <Select className="h-12" placeholder="Select to category">
-          <Select.Option value="demo">Demo</Select.Option>
+          {categories.map((category) => (
+            <Select.Option value={category.name} key={category._id}>
+              {category.categoryName}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
       <Form.Item
@@ -173,7 +194,7 @@ const PostView = () => {
             className="!bg-indigo-800 hover:!bg-indigo-600 text-white font-bold"
             htmlType="submit"
           >
-            Create Blog
+            Update Blog
           </Button>
         </Form.Item>
       </div>

@@ -51,7 +51,7 @@ app.post('/post', upload.single('picture'), createPost)
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
-app.use('/api/category', checkRole, categoryRoutes)
+app.use('/api/category', categoryRoutes)
 
 connectDb()
 const port = process.env.PORT || 5000

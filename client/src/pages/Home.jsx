@@ -10,8 +10,8 @@ import {
 } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { Avatar, List, Rate } from 'antd'
-import CategoryMenu from '../components/CategoryMenu'
 import { Footer } from 'antd/es/layout/layout'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   const [posts, setPost] = useState([])
@@ -47,32 +47,34 @@ const Home = () => {
             dataSource={posts}
             footer={null}
             renderItem={(item) => (
-              <List.Item
-                extra={
-                  <img
-                    width={272}
-                    height={153}
-                    alt="post"
-                    src={`http://localhost:3000/assets/${item.postCover}`}
-                  />
-                }
-              >
-                <List.Item.Meta
-                  title={<a href={item.href}>{item.title}</a>}
-                  description={
-                    <p className="text-xl font-bold text-black">
-                      {item.header}
-                    </p>
+              <Link to={`/post/${item._id}`}>
+                <List.Item
+                  extra={
+                    <img
+                      width={272}
+                      height={153}
+                      alt="post"
+                      src={`http://localhost:3000/assets/${item.postCover}`}
+                    />
                   }
-                />
-                <div className="my-2">
-                  <Avatar src={item.authorPicture} />
-                  <span className="ml-2">{item.author}</span>
-                </div>
-                <div>{item.description}</div>
-                <Rate disabled value={item.rate} className="my-2" />
-                <p className="mt-2">{item.createdAt.substring(0, 10)}</p>
-              </List.Item>
+                >
+                  <List.Item.Meta
+                    title={<a href={item.href}>{item.title}</a>}
+                    description={
+                      <p className="text-xl font-bold text-black">
+                        {item.header}
+                      </p>
+                    }
+                  />
+                  <div className="my-2">
+                    <Avatar src={item.authorPicture} />
+                    <span className="ml-2">{item.author}</span>
+                  </div>
+                  <div>{item.description}</div>
+                  <Rate disabled value={item.rate} className="my-2" />
+                  <p className="mt-2">{item.createdAt.substring(0, 10)}</p>
+                </List.Item>
+              </Link>
             )}
           />
         </div>

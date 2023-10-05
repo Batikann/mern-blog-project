@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Form, Input, Select, message } from 'antd'
 import {
   DeleteOutlined,
@@ -12,6 +12,7 @@ import 'react-quill/dist/quill.snow.css'
 import { useNavigate } from 'react-router-dom'
 
 const CreatePost = () => {
+  const [categories, setCategories] = useState()
   const [quillValue, setQuillValue] = useState('')
   const { currentUser } = useSelector((state) => state.user)
 
@@ -70,6 +71,21 @@ const CreatePost = () => {
       console.log(error)
     }
   }
+
+  const getCategories = async () => {
+    const res = await fetch('/api/category/get-categories', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await res.json()
+    setCategories(data)
+  }
+
+  useEffect(() => {
+    getCategories()
+  }, [categories])
 
   return (
     <Form
@@ -130,7 +146,11 @@ const CreatePost = () => {
       </Form.Item>
       <Form.Item label="Category" name="category" rules={[{ required: true }]}>
         <Select className="h-12" placeholder="Select to category">
-          <Select.Option value="demo">Demo</Select.Option>
+          {categories?.map((category) => (
+            <Select.Option value={category.name} key={category._id}>
+              {category.categoryName}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
       <Form.Item
