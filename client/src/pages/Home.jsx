@@ -31,8 +31,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="w-full py-8 px-4 home h-screen ">
-        <div className="max-w-7xl mx-auto h-screen">
+      <div className="w-full py-8 px-4 home h-full ">
+        <div className="max-w-7xl mx-auto h-full">
           <List
             itemLayout="vertical"
             size="large"
@@ -78,51 +78,6 @@ const Home = () => {
             )}
           />
         </div>
-        <Footer
-          style={{
-            textAlign: 'center',
-            marginTop: '1rem',
-          }}
-        >
-          <div>
-            <ul className="text-xl flex gap-4 w-full justify-center">
-              <li className="text-blue-600 hover:text-blue-400 cursor-pointer transition-all">
-                <TwitterOutlined />
-              </li>
-              <li className="text-blue-600 hover:text-blue-400 cursor-pointer transition-all">
-                <LinkedinFilled />
-              </li>
-              <li className="text-fuchsia-700 hover:text-fuchsia-500 cursor-pointer">
-                <InstagramOutlined />
-              </li>
-              <li className="text-slate-600 cursor-pointer hover:text-slate-500">
-                <GithubOutlined />
-              </li>
-              <li className="text-red-600 cursor-pointer transition-all hover:text-red-500 ">
-                <YoutubeFilled />
-              </li>
-            </ul>
-          </div>
-          <div className="mt-4">
-            <ul className="flex gap-4 font-semibold w-full justify-center">
-              <li>
-                <a href="#">About</a>
-              </li>
-              <li>
-                <a href="#">Need Help?</a>
-              </li>
-              <li>
-                <a href="#">Content Guide </a>
-              </li>
-              <li>
-                <a href="#">Privacy</a>
-              </li>
-              <li>
-                <a href="#">Terms Of Use</a>
-              </li>
-            </ul>
-          </div>
-        </Footer>
       </div>
     </>
   )

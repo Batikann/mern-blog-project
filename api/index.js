@@ -13,7 +13,7 @@ import bodyParser from 'body-parser'
 import multer from 'multer'
 import { verifyToken } from './middleware/verifyUser.js'
 import { checkRole } from './middleware/checkUserRole.js'
-import { createPost } from './controller/post.controller.js'
+import { createPost, updatePost } from './controller/post.controller.js'
 
 import helmet from 'helmet'
 
@@ -47,6 +47,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 app.post('/post', upload.single('picture'), createPost)
+app.put('/post/:id', upload.single('picture'), updatePost)
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)

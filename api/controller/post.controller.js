@@ -60,3 +60,27 @@ export const getPostById = async (req, res, next) => {
     next(error)
   }
 }
+
+export const updatePost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id)
+    if (!post) return next(errorHandler(404, 'Post not found'))
+    const updatePost = await Post.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
+    res.status(200).json(updatePost)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deletePost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id)
+    if (!post) return next(errorHandler(404, 'Post not found'))
+    await Post.deleteOne({ _id: req.params.id })
+    res.status(200).json('Post deleted successfully')
+  } catch (error) {
+    next(error)
+  }
+}
