@@ -14,6 +14,6 @@ router.post('/create-category', checkRole, createCategory)
 router.get('/get-categories', getCategories)
 router.delete('/delete-category/:id', checkRole, deleteCategory)
 router.put('/update-category/:id', checkRole, updateCategory)
-router.get('/get-category/:id', checkRole, getCategory)
+router.get('/get-category/:id', getCategory)
 
 export default router

@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.get('/getposts', getPosts)
 router.get('/getpostsForUser/:id', verifyToken, getPostsForUser)
-router.get('/getpost/:id', verifyToken, getPostById)
+router.get('/getpost/:id', getPostById)
 router.delete('/delete-post/:id', verifyToken, deletePost)
 
 export default router
