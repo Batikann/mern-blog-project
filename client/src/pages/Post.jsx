@@ -7,6 +7,7 @@ import PopularPosts from '../components/PopularPosts'
 
 const Post = () => {
   const [post, setPost] = useState()
+  const [category, setCategory] = useState()
 
   const { id } = useParams()
   const getPost = async () => {
@@ -16,20 +17,33 @@ const Post = () => {
     const data = await res.json()
     setPost(data[0])
   }
+
+  const getCategory = async () => {
+    const res = await fetch(`/api/category/get-category/${post.category}`, {
+      method: 'GET',
+    })
+    const data = await res.json()
+    setCategory(data)
+  }
   useEffect(() => {
     getPost()
   }, [])
-  console.log(post)
+  useEffect(() => {
+    getCategory()
+  }, [post])
+  console.log(category)
   return post ? (
     <div className="max-w-7xl mx-auto mt-6  w-full h-full min-h-full">
       <div>
-        <span className="font-bold bg-indigo-800 text-white p-1 px-4 rounded-xl text-xs cursor-pointer hover:shadow-indigo-600 hover:shadow-md transition-all duration-300">
-          {post.category}
+        <span className="font-bold bg-indigo-800 text-white p-1 px-4 rounded-xl text-sm cursor-pointer hover:shadow-indigo-600 hover:shadow-md transition-all duration-300">
+          {category?.categoryName}
         </span>
-        <h1 className="text-[45px] font-bold text-slate-600 mb-5">
+        <h1 className="lg:text-[45px] text-3xl mt-4  font-bold text-slate-600 mb-5">
           {post.header}
         </h1>
-        <p className="text-2xl  text-black">{post.description}</p>
+        <p className="lg:text-2xl text-[18px]  text-black">
+          {post.description}
+        </p>
       </div>
       <div className="mt-3 flex items-center gap-x-4">
         <img
@@ -39,13 +53,13 @@ const Post = () => {
         />
         <div>
           <p>{post.author}</p>
-          <p>
-            <span className="mr-2">Published Date:</span>
-            {post.createdAt.substring(0, 10).split('-').reverse().join('-')}
+          <p className="text-base">
+            <span className="mr-2 text-sm font-semibold">Published Date:</span>
+            {post.createdAt.substring(0, 10).split('-').reverse().join('.')}
           </p>
         </div>
       </div>
-      <div className="flex mt-6 justify-between w-full mb-12">
+      <div className="flex mt-6 md:justify-between  mb-12 gap-4 md:flex-row  flex-col">
         <div>
           <img
             src={`http://localhost:3000/assets/${post.postCover}`}
@@ -57,12 +71,16 @@ const Post = () => {
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
-          <WriteComment />
           <div className="flex flex-col gap-4 mt-12">
+            <WriteComment />
             <Comment post={post} />
           </div>
         </div>
-        <PopularPosts post={post} />
+        <div className="flex flex-col gap-4">
+          <PopularPosts post={post} categoryName={category?.categoryName} />
+          <PopularPosts post={post} categoryName={category?.categoryName} />
+          <PopularPosts post={post} categoryName={category?.categoryName} />
+        </div>
       </div>
     </div>
   ) : (

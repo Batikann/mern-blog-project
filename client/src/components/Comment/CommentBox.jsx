@@ -24,12 +24,14 @@ const Comment = ({ post }) => {
             <Rate defaultValue={2} className="text-base" />
           </p>
         </div>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center mt-1">
           <p>
-            <LikeFilled /> <span>2</span>
+            <LikeFilled className="hover:text-blue-600 cursor-pointer transition-all duration-200 mr-2" />
+            <span className="font-medium">2</span>
           </p>
           <p>
-            <DislikeFilled /> <span>3</span>
+            <DislikeFilled className="hover:text-red-600  cursor-pointer transition-all duration-200 mr-2" />{' '}
+            <span className="font-medium">3</span>
           </p>
         </div>
       </div>
