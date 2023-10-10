@@ -1,8 +1,13 @@
 import { Button, Form, Input, Rate } from 'antd'
+import { CommentOutlined } from '@ant-design/icons'
 
 const WriteComment = () => {
   return (
     <div>
+      <div className="flex gap-x-4 mb-4 items-center">
+        <CommentOutlined className="text-3xl" />
+        <h3>Yorum Yaz</h3>
+      </div>
       <Form>
         <Form.Item>
           <Input.TextArea

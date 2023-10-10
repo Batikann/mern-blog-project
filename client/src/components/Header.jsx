@@ -50,7 +50,7 @@ export const Header = () => {
     },
   ]
   return (
-    <div className="max-w-7xl mx-auto p-4 flex justify-between items-center border-b">
+    <div className="bg-white mx-auto p-4 flex justify-between fixed top-0 left-0 z-50 w-full items-center border-b">
       <Link to="/">
         <h1 className="font-bold text-xl">MERN Blog Project</h1>
       </Link>

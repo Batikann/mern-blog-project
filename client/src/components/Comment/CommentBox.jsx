@@ -1,5 +1,6 @@
 import { Rate } from 'antd'
 import { useSelector } from 'react-redux'
+import { LikeFilled, DislikeFilled } from '@ant-design/icons'
 
 const Comment = ({ post }) => {
   const { currentUser } = useSelector((state) => state.user)
@@ -11,16 +12,26 @@ const Comment = ({ post }) => {
         className="w-16 h-16 rounded-full"
       />
       <div>
-        <div className="flex gap-x-2">
-          <p>{currentUser.username}</p>
+        <div>
+          <div className="flex gap-x-2">
+            <p>{currentUser.username}</p>
+            <p>
+              {post.createdAt.substring(0, 10).split('-').reverse().join('-')}
+            </p>
+          </div>
+          <p>Çok fazla beğenmedim ama güzel yazı olmuş..</p>
           <p>
-            {post.createdAt.substring(0, 10).split('-').reverse().join('-')}
+            <Rate defaultValue={2} className="text-base" />
           </p>
         </div>
-        <p>Çok fazla beğenmedim ama güzel yazı olmuş..</p>
-        <p>
-          <Rate defaultValue={2} className="text-base" />
-        </p>
+        <div className="flex gap-4 items-center">
+          <p>
+            <LikeFilled /> <span>2</span>
+          </p>
+          <p>
+            <DislikeFilled /> <span>3</span>
+          </p>
+        </div>
       </div>
     </div>
   )

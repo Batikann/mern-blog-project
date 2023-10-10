@@ -23,48 +23,46 @@ const Post = () => {
   return post ? (
     <div className="max-w-7xl mx-auto mt-6  w-full h-full min-h-full">
       <div>
+        <span className="font-bold bg-indigo-800 text-white p-1 px-4 rounded-xl text-xs cursor-pointer hover:shadow-indigo-600 hover:shadow-md transition-all duration-300">
+          {post.category}
+        </span>
+        <h1 className="text-[45px] font-bold text-slate-600 mb-5">
+          {post.header}
+        </h1>
+        <p className="text-2xl  text-black">{post.description}</p>
+      </div>
+      <div className="mt-3 flex items-center gap-x-4">
+        <img
+          src={post.authorPicture}
+          alt="post"
+          className="w-16 h-16 rounded-full"
+        />
         <div>
-          <span className="font-bold bg-indigo-800 text-white p-1 px-4 rounded-xl text-xs cursor-pointer hover:shadow-indigo-600 hover:shadow-md transition-all duration-300">
-            {post.category}
-          </span>
-          <h1 className="text-[45px] font-bold text-slate-600 mb-5">
-            {post.header}
-          </h1>
-          <p className="text-2xl  text-black">{post.description}</p>
+          <p>{post.author}</p>
+          <p>
+            <span className="mr-2">Published Date:</span>
+            {post.createdAt.substring(0, 10).split('-').reverse().join('-')}
+          </p>
         </div>
-        <div className="mt-3 flex items-center gap-x-4">
+      </div>
+      <div className="flex mt-6 justify-between w-full mb-12">
+        <div>
           <img
-            src={post.authorPicture}
-            alt="post"
-            className="w-16 h-16 rounded-full"
+            src={`http://localhost:3000/assets/${post.postCover}`}
+            alt="cover-image"
+            className="h-[500px] w-full rounded-lg object-cover  "
           />
-          <div>
-            <p>{post.author}</p>
-            <p>
-              <span className="mr-2">Published Date:</span>
-              {post.createdAt.substring(0, 10).split('-').reverse().join('-')}
-            </p>
-          </div>
-        </div>
-        <div className="flex mt-6 justify-between w-full mb-12">
-          <div>
-            <img
-              src={`http://localhost:3000/assets/${post.postCover}`}
-              alt="cover-image"
-              className="h-[500px] w-full rounded-lg object-cover  "
-            />
-            <p
-              className="my-12"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+          <p
+            className="my-12"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
 
-            <WriteComment />
-            <div className="flex flex-col gap-4 mt-12">
-              <Comment post={post} />
-            </div>
+          <WriteComment />
+          <div className="flex flex-col gap-4 mt-12">
+            <Comment post={post} />
           </div>
-          <PopularPosts post={post} />
         </div>
+        <PopularPosts post={post} />
       </div>
     </div>
   ) : (
