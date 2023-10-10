@@ -18,7 +18,7 @@ const Profile = () => {
   } = theme.useToken()
 
   return (
-    <Layout>
+    <Layout className="mt-[69px]">
       <Sider
         trigger={null}
         collapsible={true}

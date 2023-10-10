@@ -33,7 +33,7 @@ const Post = () => {
   }, [post])
   console.log(category)
   return post && category ? (
-    <div className="max-w-7xl mx-auto mt-6  w-full h-full min-h-full">
+    <div className="max-w-7xl mx-auto w-full h-full min-h-full xl:mt-24 mt-14 p-4">
       <div>
         <span className="font-bold bg-indigo-800 text-white p-1 px-4 rounded-xl text-sm cursor-pointer hover:shadow-indigo-600 hover:shadow-md transition-all duration-300">
           {category?.categoryName}

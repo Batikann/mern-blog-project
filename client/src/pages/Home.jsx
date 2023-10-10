@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="w-full py-8 px-4 home h-full ">
+      <div className="w-full py-8 px-4 home h-full mt-12 ">
         <div className="max-w-7xl mx-auto h-full">
           <List
             itemLayout="vertical"
