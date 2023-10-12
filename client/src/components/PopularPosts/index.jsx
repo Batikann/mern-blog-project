@@ -1,7 +1,7 @@
 const PopularPosts = ({ post, categoryName }) => {
   return (
     <div>
-      <div className="cursor-pointer transition-all duration-300 hover:scale-95">
+      <div className="cursor-pointer transition-all duration-300 hover:scale-95 md:w-[400px] w-full">
         <div className="relative">
           <img
             className="w-full h-[200px] object-cover rounded-lg"

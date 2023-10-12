@@ -1,13 +1,16 @@
-import { Button, Form, Input, Rate, Spin } from 'antd'
+import { Button, Empty, Form, Input, Rate, Spin } from 'antd'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Comment from '../components/Comment/CommentBox'
 import WriteComment from '../components/Comment/WriteComment'
 import PopularPosts from '../components/PopularPosts'
+import { useSelector } from 'react-redux'
 
 const Post = () => {
   const [post, setPost] = useState()
+  const [comments, setComments] = useState()
   const [category, setCategory] = useState()
+  const { currentUser } = useSelector((state) => state?.user)
 
   const { id } = useParams()
   const getPost = async () => {
@@ -15,25 +18,31 @@ const Post = () => {
       method: 'GET',
     })
     const data = await res.json()
-    setPost(data[0])
+    await setPost(data[0])
+    const categoryRes = await fetch(
+      `/api/category/get-category/${data[0].category}`,
+      {
+        method: 'GET',
+      }
+    )
+    const categoryData = await categoryRes.json()
+    setCategory(categoryData)
+    const resComments = await fetch(
+      `/api/comment/get-commentsPost/${data[0]._id}`,
+      {
+        method: 'GET',
+      }
+    )
+    const commentsData = await resComments.json()
+    await setComments(commentsData)
   }
 
-  const getCategory = async () => {
-    const res = await fetch(`/api/category/get-category/${post.category}`, {
-      method: 'GET',
-    })
-    const data = await res.json()
-    setCategory(data)
-  }
   useEffect(() => {
     getPost()
   }, [])
-  useEffect(() => {
-    getCategory()
-  }, [post])
-  console.log(category)
+
   return post && category ? (
-    <div className="max-w-7xl mx-auto w-full h-full min-h-full xl:mt-24 mt-14 p-4">
+    <div className="max-w-7xl mx-auto w-full h-full min-h-full mt-24 p-4">
       <div>
         <span className="font-bold bg-indigo-800 text-white p-1 px-4 rounded-xl text-sm cursor-pointer hover:shadow-indigo-600 hover:shadow-md transition-all duration-300">
           {category?.categoryName}
@@ -59,21 +68,21 @@ const Post = () => {
           </p>
         </div>
       </div>
-      <div className="flex mt-6 md:justify-between  mb-12 gap-4 md:flex-row  flex-col">
+      <div className="flex mt-6   mb-12 gap-12 md:flex-row  flex-col">
         <div>
           <img
             src={`http://localhost:3000/assets/${post.postCover}`}
             alt="cover-image"
             className="h-[500px] w-full rounded-lg object-cover  "
           />
-          <p
-            className="my-12"
+          <div
+            className="my-12 "
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
           <div className="flex flex-col gap-4 mt-12">
-            <WriteComment />
-            <Comment post={post} />
+            <WriteComment currentUser={currentUser} post={post} />
+            <Comment comments={comments} />
           </div>
         </div>
         <div className="flex flex-col gap-4">

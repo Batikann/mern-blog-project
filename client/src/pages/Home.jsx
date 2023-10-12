@@ -59,7 +59,7 @@ const Home = () => {
                   }
                 >
                   <List.Item.Meta
-                    title={<a href={item.href}>{item.title}</a>}
+                    title={<p>{item.title}</p>}
                     description={
                       <p className="text-xl font-bold text-black">
                         {item.header}
