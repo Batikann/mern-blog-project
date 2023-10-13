@@ -10,6 +10,7 @@ const Post = () => {
   const [post, setPost] = useState()
   const [comments, setComments] = useState()
   const [category, setCategory] = useState()
+  const [newComment, setNewComment] = useState()
   const { currentUser } = useSelector((state) => state?.user)
 
   const { id } = useParams()
@@ -39,7 +40,7 @@ const Post = () => {
 
   useEffect(() => {
     getPost()
-  }, [])
+  }, [newComment])
 
   return post && category ? (
     <div className="max-w-7xl mx-auto w-full h-full min-h-full mt-24 p-4">
@@ -81,8 +82,12 @@ const Post = () => {
           />
 
           <div className="flex flex-col gap-4 mt-12">
-            <WriteComment currentUser={currentUser} post={post} />
-            <Comment comments={comments} />
+            <WriteComment
+              currentUser={currentUser}
+              post={post}
+              setNewComment={setNewComment}
+            />
+            <Comment comments={comments} setNewComment={setNewComment} />
           </div>
         </div>
         <div className="flex flex-col gap-4">

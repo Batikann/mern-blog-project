@@ -27,3 +27,25 @@ export const getCommentsForPost = async (req, res, next) => {
     next(error)
   }
 }
+
+export const deleteComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.id)
+    if (!comment) next(errorHandler('401', 'Comment Not Found'))
+    await Comment.deleteOne({ _id: req.params.id })
+    res.status(200).json('Comment Deleted Successfully')
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updateComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.id)
+    if (!comment) next(errorHandler('401', 'Comment Not Found'))
+    await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    res.status(200).json(comment)
+  } catch (error) {
+    next(error)
+  }
+}

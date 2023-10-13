@@ -4,8 +4,6 @@ import {
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
-  EditOutlined,
-  BookOutlined,
 } from '@ant-design/icons'
 import { Layout, Menu, Button, theme } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
@@ -18,7 +16,7 @@ const AdminDashboard = () => {
     token: { colorBgContainer },
   } = theme.useToken()
   return (
-    <Layout>
+    <Layout className="mt-[70px]">
       <Sider
         trigger={null}
         collapsible={true}

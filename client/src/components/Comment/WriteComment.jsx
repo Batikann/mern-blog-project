@@ -1,7 +1,7 @@
 import { Button, Form, Input, Rate } from 'antd'
 import { CommentOutlined } from '@ant-design/icons'
 
-const WriteComment = ({ currentUser, post }) => {
+const WriteComment = ({ currentUser, post, setNewComment }) => {
   const onFinish = async (values) => {
     const res = await fetch('/api/comment/create-comment', {
       method: 'POST',
@@ -17,7 +17,7 @@ const WriteComment = ({ currentUser, post }) => {
       }),
     })
     const data = await res.json()
-    console.log(data)
+    setNewComment(data)
   }
 
   return (
